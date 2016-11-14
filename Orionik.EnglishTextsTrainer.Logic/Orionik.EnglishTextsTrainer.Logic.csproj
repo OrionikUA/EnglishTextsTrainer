@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{1A126CC4-1AA9-4C5A-9856-77C8C40B409A}</ProjectGuid>
+    <ProjectGuid>{7F986B2F-3F82-4611-AFD5-E5408A1C589C}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Orionik.EnglishTextsTrainer.Database</RootNamespace>
-    <AssemblyName>Orionik.EnglishTextsTrainer.Database</AssemblyName>
+    <RootNamespace>Orionik.EnglishTextsTrainer.Logic</RootNamespace>
+    <AssemblyName>Orionik.EnglishTextsTrainer.Logic</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
