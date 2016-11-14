@@ -1,0 +1,63 @@
+﻿USE EnglishTextsTrainer
+GO
+
+CREATE PROCEDURE spGetWords
+AS
+BEGIN
+	SELECT * FROM tblWord
+END
+GO
+
+CREATE PROCEDURE spAddNewWord
+@Name NVARCHAR(50),
+@Id INT OUT,
+@Meanings NVARCHAR(128),
+@Know BIT = 0,
+@Ignored BIT = 0
+AS
+BEGIN TRAN
+	BEGIN TRY
+		DECLARE @Temp TABLE(ID int NOT NULL)
+		INSERT INTO tblWord(Name, Meanings, Ignored, Know) 
+		OUTPUT INSERTED.Id INTO @Temp
+		VALUES (@Name, @Meanings, @Ignored, @Know)
+		SELECT @Id = ID FROM @Temp	
+		COMMIT TRAN
+	END TRY
+
+	BEGIN CATCH
+		ROLLBACK TRAN 
+	END CATCH
+GO
+
+CREATE PROCEDURE spUpdateWord
+@Name NVARCHAR(50),
+@Id INT,
+@Meanings NVARCHAR(128),
+@Know BIT,
+@Ignored BIT
+AS
+BEGIN TRAN
+	BEGIN TRY
+		UPDATE tblWord SET Name = @Name, Meanings = @Meanings, Ignored = @Ignored, Know = @Know WHERE Id = @Id
+		COMMIT TRAN
+	END TRY
+
+	BEGIN CATCH
+		ROLLBACK TRAN 
+	END CATCH
+GO
+
+CREATE PROCEDURE spDeleteWord
+@Id INT
+AS
+BEGIN TRAN
+	BEGIN TRY
+		DELETE FROM tblWord WHERE Id = @Id
+		COMMIT TRAN
+	END TRY
+
+	BEGIN CATCH
+		ROLLBACK TRAN 
+	END CATCH
+GO
