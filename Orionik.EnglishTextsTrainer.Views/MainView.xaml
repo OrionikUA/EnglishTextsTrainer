@@ -25,21 +25,21 @@
                     <Button Content="{x:Static resx:Resources.DeleteKnow}" Padding="3" Margin="0,2" Command="{Binding DeleteKnownCommand}"></Button>
                     <Button Content="{x:Static resx:Resources.SaveAllNotKnow}" Padding="3" Margin="0,2" Command="{Binding SavaAllNotKnownThatIsInBaseCommand}"></Button>
                 </StackPanel>
-                <Grid Margin="5">
+                <Grid Margin="5" IsEnabled="{Binding IsProjectMainPanelEnabled}">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition></ColumnDefinition>
                         <ColumnDefinition></ColumnDefinition>
                     </Grid.ColumnDefinitions>
                     <ListView Grid.Column="0" ItemsSource="{Binding ProjectTextWords}" SelectedItem="{Binding SelectedTextWord}"></ListView>
-                    <StackPanel Grid.Column="1" IsEnabled="{Binding IsProjectAddPanelEnabled}">
+                    <StackPanel Grid.Column="1">
                         <Label Content="{x:Static resx:Resources.Word}" Padding="5,3,5,1"></Label>
-                        <TextBox Margin="5,0,5,5" IsReadOnly="True" Text="{Binding NewProjectWordToSave.Name}"></TextBox>
+                        <TextBox Margin="5,0,5,5" IsReadOnly="True" Text="{Binding SelectedTextWord}"></TextBox>
                         <Label Content="{x:Static resx:Resources.Meaning}" Padding="5,3,5,1"></Label>
-                        <TextBox Margin="5,0,5,5" TextWrapping="Wrap" MinLines="4" Text="{Binding NewProjectWordToSave.Meanings}"></TextBox>
+                        <TextBox Margin="5,0,5,5" TextWrapping="Wrap" MinLines="4" Text="{Binding NewProjectWordToSaveMeanings}"></TextBox>
                         <Label Content="{x:Static resx:Resources.Translate}" Padding="5,3,5,1"></Label>
                         <TextBox Margin="5,0,5,5" TextWrapping="Wrap" MinLines="3" IsReadOnly="True"></TextBox>
-                        <CheckBox Content="{x:Static resx:Resources.Ignore}" Margin="5" IsChecked="{Binding NewProjectWordToSave.Ignore}"></CheckBox>
-                        <CheckBox Content="{x:Static resx:Resources.Know}" Margin="5" IsChecked="{Binding NewProjectWordToSave.Know}"></CheckBox>
+                        <CheckBox Content="{x:Static resx:Resources.Ignore}" Margin="5" IsChecked="{Binding NewProjectWordToSaveIgnore}"></CheckBox>
+                        <CheckBox Content="{x:Static resx:Resources.Know}" Margin="5" IsChecked="{Binding NewProjectWordToSaveKnow}"></CheckBox>
                         <Button Margin="5" Content="{x:Static resx:Resources.Save}" Padding="3" Command="{Binding SaveProjectWordCommand}"></Button>
                     </StackPanel>
                 </Grid>
@@ -83,7 +83,7 @@
                                 <RadioButton GroupName="KnowGroup" Content="{x:Static resx:Resources.IsAll}"></RadioButton>
                             </StackPanel>
                         </Grid>
-                        <DataGrid ItemsSource="{Binding DataBaseGrid}"></DataGrid>
+                        <DataGrid ItemsSource="{Binding DataBaseGrid}" IsReadOnly="True"></DataGrid>
                     </DockPanel>
                 </Grid>
             </DockPanel>
