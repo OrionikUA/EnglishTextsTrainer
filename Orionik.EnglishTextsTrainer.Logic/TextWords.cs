@@ -23,7 +23,7 @@ namespace Orionik.EnglishTextsTrainer.Logic
             Logging.Instance.Write(typeof(TextWords), "Start GetUniqueWordList");
             var wordList = new List<string>();
 
-            foreach (var item in wordList)
+            foreach (var item in list)
             {
                 if (!wordList.Contains(item))
                 {
