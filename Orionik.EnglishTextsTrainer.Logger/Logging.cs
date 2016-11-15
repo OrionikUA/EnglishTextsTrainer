@@ -34,7 +34,7 @@ namespace Orionik.EnglishTextsTrainer.Logger
         {
             Debug.WriteLine(message);
             WriteIntoFile(message);
-            WriteDelegate(message);
+            WriteDelegate?.Invoke(message);
         }
 
         public void Write(Type type, string message)
