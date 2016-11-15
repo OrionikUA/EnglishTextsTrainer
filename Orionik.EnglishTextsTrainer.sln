@@ -29,6 +29,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Orionik.EnglishTextsTrainer
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Orionik.EnglishTextsTrainer.UIServices", "Orionik.EnglishTextsTrainer.UIServices\Orionik.EnglishTextsTrainer.UIServices.csproj", "{9E451DAC-E29B-4FB0-B6F8-86E7DDDACA6A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Orionik.EnglishTextsTrainer.Helpers", "Orionik.EnglishTextsTrainer.Helpers\Orionik.EnglishTextsTrainer.Helpers.csproj", "{33955FEA-1583-4C30-90C7-088ECD7FD39D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -87,6 +89,10 @@ Global
 		{9E451DAC-E29B-4FB0-B6F8-86E7DDDACA6A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9E451DAC-E29B-4FB0-B6F8-86E7DDDACA6A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9E451DAC-E29B-4FB0-B6F8-86E7DDDACA6A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{33955FEA-1583-4C30-90C7-088ECD7FD39D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{33955FEA-1583-4C30-90C7-088ECD7FD39D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{33955FEA-1583-4C30-90C7-088ECD7FD39D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{33955FEA-1583-4C30-90C7-088ECD7FD39D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
