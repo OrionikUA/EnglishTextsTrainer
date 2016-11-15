@@ -35,6 +35,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TextFile.cs" />
+    <Compile Include="TextWords.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Orionik.EnglishTextsTrainer.Logger\Orionik.EnglishTextsTrainer.Logger.csproj">
+      <Project>{23b60133-d6da-4b7f-bc06-2fb46e344d17}</Project>
+      <Name>Orionik.EnglishTextsTrainer.Logger</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
