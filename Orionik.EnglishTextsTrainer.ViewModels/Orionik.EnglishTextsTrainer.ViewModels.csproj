@@ -30,11 +30,37 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="PresentationCore" />
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Command\RelayCommand.cs" />
+    <Compile Include="MainViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Orionik.EnglishTextsTrainer.Helpers\Orionik.EnglishTextsTrainer.Helpers.csproj">
+      <Project>{33955fea-1583-4c30-90c7-088ecd7fd39d}</Project>
+      <Name>Orionik.EnglishTextsTrainer.Helpers</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Orionik.EnglishTextsTrainer.Logic\Orionik.EnglishTextsTrainer.Logic.csproj">
+      <Project>{7f986b2f-3f82-4611-afd5-e5408a1c589c}</Project>
+      <Name>Orionik.EnglishTextsTrainer.Logic</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Orionik.EnglishTextsTrainer.Models\Orionik.EnglishTextsTrainer.Models.csproj">
+      <Project>{9d028833-9135-435c-8c51-ebaba2ebebcf}</Project>
+      <Name>Orionik.EnglishTextsTrainer.Models</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Orionik.EnglishTextsTrainer.Repositories\Orionik.EnglishTextsTrainer.Repositories.csproj">
+      <Project>{73cd1ad4-5171-4dfe-bce7-c9f5ad250d23}</Project>
+      <Name>Orionik.EnglishTextsTrainer.Repositories</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Orionik.EnglishTextsTrainer.UIServices\Orionik.EnglishTextsTrainer.UIServices.csproj">
+      <Project>{9e451dac-e29b-4fb0-b6f8-86e7dddaca6a}</Project>
+      <Name>Orionik.EnglishTextsTrainer.UIServices</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
