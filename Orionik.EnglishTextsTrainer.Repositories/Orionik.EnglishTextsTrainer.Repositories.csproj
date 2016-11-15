@@ -32,9 +32,26 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Data" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BaseRepository.cs" />
+    <Compile Include="IRepository.cs" />
+    <Compile Include="IWordRepository.cs" />
+    <Compile Include="Procedures.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UnitOfWork.cs" />
+    <Compile Include="WordRepository.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Orionik.EnglishTextsTrainer.Logger\Orionik.EnglishTextsTrainer.Logger.csproj">
+      <Project>{23b60133-d6da-4b7f-bc06-2fb46e344d17}</Project>
+      <Name>Orionik.EnglishTextsTrainer.Logger</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Orionik.EnglishTextsTrainer.Models\Orionik.EnglishTextsTrainer.Models.csproj">
+      <Project>{9d028833-9135-435c-8c51-ebaba2ebebcf}</Project>
+      <Name>Orionik.EnglishTextsTrainer.Models</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
