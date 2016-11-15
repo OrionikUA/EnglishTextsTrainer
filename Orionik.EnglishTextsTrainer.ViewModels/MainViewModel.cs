@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -29,8 +30,7 @@ namespace Orionik.EnglishTextsTrainer.ViewModels
             NewProjectWordToSave = new Word();
             _unitOfWork = new UnitOfWork(ConnectionStringHelper.Instance.Connection);
             DataBaseGrid = _unitOfWork.WordRepository.GetList();
-
-            
+            ProjectWordList = new List<Word>();
         }
         public ICommand OpenFileCommand
         {
@@ -49,6 +49,17 @@ namespace Orionik.EnglishTextsTrainer.ViewModels
 
         }
 
+        private List<Word> _projectWordList;
+        public List<Word> ProjectWordList
+        {
+            get { return _projectWordList; }
+            set
+            {
+                _projectWordList = value;
+                OnPropertyChanged();
+            }
+        }
+
         private void OpenFile()
         {
             var dialog = new OpenFileDialogService(".txt", "Text documents (.txt)|*.txt");
@@ -60,11 +71,12 @@ namespace Orionik.EnglishTextsTrainer.ViewModels
             }
 
             var text = TextFile.ReadFile(FilePath);
-            var words = TextWords.FindWords(text);
+            var words = TextWords.GetUniqueWordList(TextWords.FindWords(text));
             foreach (var word in words)
             {
                 ProjectTextWords.Add(word);
             }
+            OnPropertyChanged(nameof(ProjectTextWords));
         }
 
         private string _filePath;
@@ -197,6 +209,10 @@ namespace Orionik.EnglishTextsTrainer.ViewModels
                 _unitOfWork.WordRepository.Insert(NewProjectWordToSave);
                 DataBaseGrid.Add(NewProjectWordToSave);
             }
+            if (!NewProjectWordToSave.Ignore && !NewProjectWordToSave.Know)
+            {
+                ProjectWordList.Add(DataBaseGrid.First(x => x.Name == NewProjectWordToSave.Name));
+            }
 
             var selected = SelectedTextWord;
             CleareSaveProjectWord();
@@ -222,15 +238,55 @@ namespace Orionik.EnglishTextsTrainer.ViewModels
                    !string.IsNullOrEmpty(NewProjectWordToSave.Meanings);
         }
 
-        //public object DeleteIgnoredCommand
-        //{
-        //    get { throw new NotImplementedException(); }
-        //}
+        public object DeleteIgnoredCommand
+        {
+            get
+            {
+                return new RelayCommand(p =>
+                {
+                    var ignored = (from word in DataBaseGrid where word.Ignore select word).ToList();
+                    var deleteList = new List<string>();
+                    
+                    foreach (var word in ProjectTextWords)
+                    {
+                        if (ignored.FirstOrDefault(x => x.Name == word) != null)
+                        {
+                            deleteList.Add(word);
+                        }
+                    }
+                    foreach (var word in deleteList)
+                    {
+                        DeleteProjectSelectedWord(word);
+                    }
 
-        //public object DeleteKnownCommand
-        //{
-        //    get { throw new NotImplementedException(); }
-        //}
+                });
+            }
+        }
+
+        public object DeleteKnownCommand
+        {
+            get
+            {
+                return new RelayCommand(p =>
+                {
+                    var ignored = (from word in DataBaseGrid where word.Know select word).ToList();
+                    var deleteList = new List<string>();
+
+                    foreach (var word in ProjectTextWords)
+                    {
+                        if (ignored.FirstOrDefault(x => x.Name == word) != null)
+                        {
+                            deleteList.Add(word);
+                        }
+                    }
+                    foreach (var word in deleteList)
+                    {
+                        DeleteProjectSelectedWord(word);
+                    }
+
+                });
+            }
+        }
 
         //public object SavaAllNotKnownThatIsInBaseCommand
         //{
