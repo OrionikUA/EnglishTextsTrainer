@@ -35,7 +35,7 @@ namespace Orionik.EnglishTextsTrainer.Repositories
                                 Id = (int)reader["Id"],
                                 Name = (string)reader["Name"],
                                 Meanings = (string)reader["Meanings"],
-                                Ignore = (bool)reader["Ignore"],
+                                Ignore = (bool)reader["Ignored"],
                                 Know = (bool)reader["Know"]
                             });
                         }
@@ -57,8 +57,9 @@ namespace Orionik.EnglishTextsTrainer.Repositories
                     sqlCommand.CommandType = CommandType.StoredProcedure;
                     sqlCommand.Parameters.Add("@Name", SqlDbType.NVarChar).Value = item.Name;
                     sqlCommand.Parameters.Add("@Meanings", SqlDbType.NVarChar).Value = item.Meanings;
-                    sqlCommand.Parameters.Add("@Ignore", SqlDbType.Bit).Value = item.Ignore;
+                    sqlCommand.Parameters.Add("@Ignored", SqlDbType.Bit).Value = item.Ignore;
                     sqlCommand.Parameters.Add("@Know", SqlDbType.Bit).Value = item.Know;
+                    sqlCommand.Parameters.Add("@Id", SqlDbType.Int).Direction = ParameterDirection.Output;
                     sqlCommand.ExecuteNonQuery();
                     item.Id = (int) sqlCommand.Parameters["@Id"].Value;
                 }
@@ -78,7 +79,7 @@ namespace Orionik.EnglishTextsTrainer.Repositories
                     sqlCommand.CommandType = CommandType.StoredProcedure;
                     sqlCommand.Parameters.Add("@Name", SqlDbType.NVarChar).Value = item.Name;
                     sqlCommand.Parameters.Add("@Meanings", SqlDbType.NVarChar).Value = item.Meanings;
-                    sqlCommand.Parameters.Add("@Ignore", SqlDbType.Bit).Value = item.Ignore;
+                    sqlCommand.Parameters.Add("@Ignored", SqlDbType.Bit).Value = item.Ignore;
                     sqlCommand.Parameters.Add("@Know", SqlDbType.Bit).Value = item.Know;
                     sqlCommand.Parameters.Add("@Id", SqlDbType.Int).Value = item.Id;
                     sqlCommand.ExecuteNonQuery();
