@@ -27,6 +27,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Orionik.EnglishTextsTrainer
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Orionik.EnglishTextsTrainer.Exceptions", "Orionik.EnglishTextsTrainer.Exceptions\Orionik.EnglishTextsTrainer.Exceptions.csproj", "{EB3E02A2-F6E7-4106-A3A6-ADB74F2FE769}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Orionik.EnglishTextsTrainer.UIServices", "Orionik.EnglishTextsTrainer.UIServices\Orionik.EnglishTextsTrainer.UIServices.csproj", "{9E451DAC-E29B-4FB0-B6F8-86E7DDDACA6A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -81,6 +83,10 @@ Global
 		{EB3E02A2-F6E7-4106-A3A6-ADB74F2FE769}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EB3E02A2-F6E7-4106-A3A6-ADB74F2FE769}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EB3E02A2-F6E7-4106-A3A6-ADB74F2FE769}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9E451DAC-E29B-4FB0-B6F8-86E7DDDACA6A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9E451DAC-E29B-4FB0-B6F8-86E7DDDACA6A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9E451DAC-E29B-4FB0-B6F8-86E7DDDACA6A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9E451DAC-E29B-4FB0-B6F8-86E7DDDACA6A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
