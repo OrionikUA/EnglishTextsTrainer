@@ -83,7 +83,7 @@
                                 <RadioButton GroupName="KnowGroup" Content="{x:Static resx:Resources.IsAll}"></RadioButton>
                             </StackPanel>
                         </Grid>
-                        <DataGrid ItemsSource="{Binding DataBaseList}"></DataGrid>
+                        <DataGrid ItemsSource="{Binding DataBaseGrid}"></DataGrid>
                     </DockPanel>
                 </Grid>
             </DockPanel>
