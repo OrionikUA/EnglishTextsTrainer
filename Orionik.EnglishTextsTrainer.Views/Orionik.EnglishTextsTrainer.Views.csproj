@@ -94,6 +94,12 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Orionik.EnglishTextsTrainer.ViewModels\Orionik.EnglishTextsTrainer.ViewModels.csproj">
+      <Project>{641201e6-9f36-4eee-b374-06d03b0f2e82}</Project>
+      <Name>Orionik.EnglishTextsTrainer.ViewModels</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

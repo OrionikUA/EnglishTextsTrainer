@@ -4,11 +4,15 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:resx="clr-namespace:Orionik.EnglishTextsTrainer.Views.Properties"
+        xmlns:vm="clr-namespace:Orionik.EnglishTextsTrainer.ViewModels;assembly=Orionik.EnglishTextsTrainer.ViewModels"
         xmlns:local="clr-namespace:Orionik.EnglishTextsTrainer.Views"
         mc:Ignorable="d"
         MinHeight="500"
         MinWidth="500"
         Title="{x:Static resx:Resources.ProgramName}" Height="500" Width="500">
+    <Window.DataContext>
+        <vm:MainViewModel></vm:MainViewModel>
+    </Window.DataContext>
     <TabControl>
         <TabItem Header="{x:Static resx:Resources.Project}">
             <DockPanel LastChildFill="True">
