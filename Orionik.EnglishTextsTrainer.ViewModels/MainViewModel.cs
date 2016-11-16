@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -28,6 +29,7 @@ namespace Orionik.EnglishTextsTrainer.ViewModels
             ProjectWordList = new List<Word>();
             IgnoreFilter = Filter.All;
             KnowFilter = Filter.All;
+            ProjectTextWords.CollectionChanged += delegate { OnPropertyChanged("ProjcetListCount"); };
         }
 
         #endregion
@@ -55,8 +57,10 @@ namespace Orionik.EnglishTextsTrainer.ViewModels
 
                     foreach (var word in ProjectTextWords)
                     {
-                        if (ignored.FirstOrDefault(x => x.Name == word) != null)
+                        var ignoredWord = ignored.FirstOrDefault(x => x.Name == word);
+                        if (ignoredWord != null)
                         {
+                            ProjectWordList.Add(ignoredWord);
                             deleteList.Add(word);
                         }
                     }
@@ -74,12 +78,14 @@ namespace Orionik.EnglishTextsTrainer.ViewModels
             {
                 return new RelayCommand(p =>
                 {
-                    var ignored = (from word in DataBaseGrid where word.Know select word).ToList();
+                    var known = (from word in DataBaseGrid where word.Know select word).ToList();
                     var deleteList = new List<string>();
                     foreach (var word in ProjectTextWords)
                     {
-                        if (ignored.FirstOrDefault(x => x.Name == word) != null)
+                        var knowWord = known.FirstOrDefault(x => x.Name == word);
+                        if (knowWord != null)
                         {
+                            ProjectWordList.Add(knowWord);
                             deleteList.Add(word);
                         }
                     }
@@ -95,7 +101,7 @@ namespace Orionik.EnglishTextsTrainer.ViewModels
         {
             get { return new RelayCommand(p =>
             {
-                SaveToFile(DataFilterGrid.ConvertAll(x => x.ToString()));
+                SaveToFile(DataFilterGrid.ToList().ConvertAll(x => x.ToString()));
             });}
         }
         #endregion
@@ -242,8 +248,20 @@ namespace Orionik.EnglishTextsTrainer.ViewModels
             }
         }
 
-        public List<Word> DataFilterGrid
-            => CheckKnowFilter(ProjectChecked ? CheckIgnoreFilter(_projectWordList) : CheckIgnoreFilter(_dataBaseGrid));
+        public ObservableCollection<Word> DataFilterGrid
+        {
+            get
+            {
+                var list = CheckKnowFilter(ProjectChecked ? CheckIgnoreFilter(_projectWordList) : CheckIgnoreFilter(_dataBaseGrid));
+                var obsList = new ObservableCollection<Word>();
+                foreach (var word in list)
+                {
+                    obsList.Add(word);
+                }
+                return obsList;
+            }
+        }
+        
 
         public bool ProjectChecked
         {
@@ -277,6 +295,9 @@ namespace Orionik.EnglishTextsTrainer.ViewModels
                 OnPropertyChanged("DataFilterGrid");
             }
         }
+
+        public int ProjcetListCount => ProjectTextWords.Count;
+        
         #endregion
 
         #region PrivateMethods
@@ -322,11 +343,9 @@ namespace Orionik.EnglishTextsTrainer.ViewModels
                 _unitOfWork.WordRepository.Insert(NewProjectWordToSave);
                 DataBaseGrid.Add(NewProjectWordToSave);
             }
-            if (!NewProjectWordToSave.Ignore && !NewProjectWordToSave.Know)
-            {
-                ProjectWordList.Add(DataBaseGrid.First(x => x.Name == NewProjectWordToSave.Name));
-                OnPropertyChanged("ProjectWordList");
-            }
+            ProjectWordList.Add(DataBaseGrid.First(x => x.Name == NewProjectWordToSave.Name));
+            //OnPropertyChanged("ProjectWordList");
+            
             var selected = SelectedTextWord;
             CleareSaveProjectWord();
             DeleteProjectSelectedWord(selected);
