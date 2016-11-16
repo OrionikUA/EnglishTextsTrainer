@@ -52,7 +52,7 @@
         </TabItem>
         <TabItem Header="{x:Static resx:Resources.Base}">
             <DockPanel LastChildFill="True">
-                <Button Margin="5" Padding="3" DockPanel.Dock="Bottom" Content="{x:Static resx:Resources.Export}"></Button>
+                <Button Margin="5" Padding="3" DockPanel.Dock="Bottom" Content="{x:Static resx:Resources.Export}" Command="{Binding ExportDataCommand}"></Button>
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition ></ColumnDefinition>
