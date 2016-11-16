@@ -22,7 +22,9 @@
         <TabItem Header="{x:Static resx:Resources.Project}">
             <DockPanel LastChildFill="True">
                 <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" Margin="5">
+                    
                     <Button Content="{x:Static resx:Resources.Open}" Padding="3" Command="{Binding OpenFileCommand}" IsEnabled="{Binding IsOpenFileButtonEnabled}"></Button>
+                    <Label Margin="5,0,0,0" Content="{Binding ProjcetListCount}"></Label>
                     <Label Margin="5,0,0,0" Content="{Binding FilePath}"></Label>
                 </StackPanel>
                 <StackPanel Orientation="Vertical" DockPanel.Dock="Bottom" Margin="5">
