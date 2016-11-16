@@ -56,8 +56,7 @@ namespace Orionik.EnglishTextsTrainer.Logic
             var stringBuilder = new StringBuilder();
             foreach (var word in list)
             {
-                stringBuilder.Append(word);
-                stringBuilder.Append("\n");
+                stringBuilder.AppendLine(word);
             }
             WriteToFile(stringBuilder.ToString(), filePath);
             Logging.Instance.Write(typeof(TextFile), "End WriteToFile overload list");
