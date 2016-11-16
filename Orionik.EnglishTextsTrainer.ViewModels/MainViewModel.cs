@@ -91,6 +91,13 @@ namespace Orionik.EnglishTextsTrainer.ViewModels
             }
         }
 
+        public ICommand ExportDataCommand
+        {
+            get { return new RelayCommand(p =>
+            {
+                SaveToFile(DataFilterGrid.ConvertAll(x => x.ToString()));
+            });}
+        }
         #endregion
 
         #region Fileds
@@ -270,7 +277,6 @@ namespace Orionik.EnglishTextsTrainer.ViewModels
                 OnPropertyChanged("DataFilterGrid");
             }
         }
-
         #endregion
 
         #region PrivateMethods
@@ -291,6 +297,16 @@ namespace Orionik.EnglishTextsTrainer.ViewModels
                 ProjectTextWords.Add(word);
             }
             OnPropertyChanged("ProjectTextWords");
+        }
+
+        private void SaveToFile(List<string> list)
+        {
+            var dialog = new SaveFileDialogService(".txt", "Text documents (.txt)|*.txt");
+            var filePath = dialog.CreateAndOpenFile();
+            if (!string.IsNullOrEmpty(filePath))
+            {
+                TextFile.WriteToFile(list, filePath);
+            }
         }
 
         private void SaveProjectWord()
