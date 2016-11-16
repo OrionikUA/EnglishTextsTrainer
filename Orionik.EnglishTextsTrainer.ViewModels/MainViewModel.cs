@@ -15,8 +15,8 @@ namespace Orionik.EnglishTextsTrainer.ViewModels
 {
     public class MainViewModel : INotifyPropertyChanged
     {
-
         #region Constructors
+
         public MainViewModel()
         {
             IsOpenFileButtonEnabled = true;
@@ -29,20 +29,21 @@ namespace Orionik.EnglishTextsTrainer.ViewModels
             IgnoreFilter = Filter.All;
             KnowFilter = Filter.All;
         }
+
         #endregion
 
         #region CommandProperties
+
         public ICommand OpenFileCommand
         {
             get { return new RelayCommand(param => { OpenFile(); }, o => IsOpenFileButtonEnabled); }
         }
+
         public ICommand SaveProjectWordCommand
         {
-            get
-            {
-                return new RelayCommand(p => SaveProjectWord(), o => CanSaveProjectWord());
-            }
+            get { return new RelayCommand(p => SaveProjectWord(), o => CanSaveProjectWord()); }
         }
+
         public ICommand DeleteIgnoredCommand
         {
             get
@@ -66,6 +67,7 @@ namespace Orionik.EnglishTextsTrainer.ViewModels
                 });
             }
         }
+
         public ICommand DeleteKnownCommand
         {
             get
@@ -88,9 +90,11 @@ namespace Orionik.EnglishTextsTrainer.ViewModels
                 });
             }
         }
+
         #endregion
 
         #region Fileds
+
         private readonly UnitOfWork _unitOfWork;
         private bool _isOpenFileButtonEnabled;
         private List<Word> _projectWordList;
@@ -102,9 +106,11 @@ namespace Orionik.EnglishTextsTrainer.ViewModels
         private bool _projectChecked;
         private Filter _ignoreFilter;
         private Filter _knowFilter;
+
         #endregion
 
         #region Properties
+
         public bool IsOpenFileButtonEnabled
         {
             get { return _isOpenFileButtonEnabled; }
@@ -114,6 +120,7 @@ namespace Orionik.EnglishTextsTrainer.ViewModels
                 OnPropertyChanged();
             }
         }
+
         public List<Word> ProjectWordList
         {
             get { return _projectWordList; }
@@ -123,6 +130,7 @@ namespace Orionik.EnglishTextsTrainer.ViewModels
                 OnPropertyChanged();
             }
         }
+
         public string FilePath
         {
             get { return _filePath; }
@@ -132,6 +140,7 @@ namespace Orionik.EnglishTextsTrainer.ViewModels
                 OnPropertyChanged();
             }
         }
+
         public bool IsProjectMainPanelEnabled
         {
             get { return _isProjectMainPanelEnabled; }
@@ -141,6 +150,7 @@ namespace Orionik.EnglishTextsTrainer.ViewModels
                 OnPropertyChanged();
             }
         }
+
         public ObservableCollection<string> ProjectTextWords
         {
             get { return _projectTextWords; }
@@ -150,6 +160,7 @@ namespace Orionik.EnglishTextsTrainer.ViewModels
                 OnPropertyChanged();
             }
         }
+
         public string SelectedTextWord
         {
             get { return _newProjectWordToSave.Name; }
@@ -170,6 +181,7 @@ namespace Orionik.EnglishTextsTrainer.ViewModels
                 OnPropertyChanged();
             }
         }
+
         public Word NewProjectWordToSave
         {
             get { return _newProjectWordToSave; }
@@ -182,6 +194,7 @@ namespace Orionik.EnglishTextsTrainer.ViewModels
                 OnPropertyChanged("NewProjectWordToSaveKnow");
             }
         }
+
         public string NewProjectWordToSaveMeanings
         {
             get { return _newProjectWordToSave.Meanings; }
@@ -191,6 +204,7 @@ namespace Orionik.EnglishTextsTrainer.ViewModels
                 OnPropertyChanged();
             }
         }
+
         public bool NewProjectWordToSaveIgnore
         {
             get { return _newProjectWordToSave.Ignore; }
@@ -200,6 +214,7 @@ namespace Orionik.EnglishTextsTrainer.ViewModels
                 OnPropertyChanged();
             }
         }
+
         public bool NewProjectWordToSaveKnow
         {
             get { return _newProjectWordToSave.Know; }
@@ -209,6 +224,7 @@ namespace Orionik.EnglishTextsTrainer.ViewModels
                 OnPropertyChanged();
             }
         }
+
         public List<Word> DataBaseGrid
         {
             get { return _dataBaseGrid; }
@@ -218,7 +234,10 @@ namespace Orionik.EnglishTextsTrainer.ViewModels
                 OnPropertyChanged();
             }
         }
-        public List<Word> DataFilterGrid => CheckKnowFilter(ProjectChecked ? CheckIgnoreFilter(_projectWordList) : CheckIgnoreFilter(_dataBaseGrid));
+
+        public List<Word> DataFilterGrid
+            => CheckKnowFilter(ProjectChecked ? CheckIgnoreFilter(_projectWordList) : CheckIgnoreFilter(_dataBaseGrid));
+
         public bool ProjectChecked
         {
             get { return _projectChecked; }
@@ -229,19 +248,33 @@ namespace Orionik.EnglishTextsTrainer.ViewModels
                 OnPropertyChanged("DataFilterGrid");
             }
         }
+
         public Filter IgnoreFilter
         {
             get { return _ignoreFilter; }
-            set { _ignoreFilter = value; OnPropertyChanged(); OnPropertyChanged("DataFilterGrid"); }
+            set
+            {
+                _ignoreFilter = value;
+                OnPropertyChanged();
+                OnPropertyChanged("DataFilterGrid");
+            }
         }
+
         public Filter KnowFilter
         {
             get { return _knowFilter; }
-            set { _knowFilter = value; OnPropertyChanged(); OnPropertyChanged("DataFilterGrid"); }
+            set
+            {
+                _knowFilter = value;
+                OnPropertyChanged();
+                OnPropertyChanged("DataFilterGrid");
+            }
         }
+
         #endregion
 
         #region PrivateMethods
+
         private void OpenFile()
         {
             var dialog = new OpenFileDialogService(".txt", "Text documents (.txt)|*.txt");
@@ -259,6 +292,7 @@ namespace Orionik.EnglishTextsTrainer.ViewModels
             }
             OnPropertyChanged("ProjectTextWords");
         }
+
         private void SaveProjectWord()
         {
             Word dataWord = DataBaseGrid.FirstOrDefault(x => x.Name == NewProjectWordToSave.Name);
@@ -281,21 +315,25 @@ namespace Orionik.EnglishTextsTrainer.ViewModels
             CleareSaveProjectWord();
             DeleteProjectSelectedWord(selected);
         }
+
         private void DeleteProjectSelectedWord(string selected)
         {
             ProjectTextWords.Remove(selected);
             OnPropertyChanged("ProjectTextWords");
         }
+
         private void CleareSaveProjectWord()
         {
             SelectedTextWord = string.Empty;
             NewProjectWordToSave = new Word();
         }
+
         private bool CanSaveProjectWord()
         {
             return !string.IsNullOrEmpty(NewProjectWordToSave.Name) &&
                    !string.IsNullOrEmpty(NewProjectWordToSave.Meanings);
         }
+
         private List<Word> CheckIgnoreFilter(List<Word> list)
         {
             switch (IgnoreFilter)
@@ -308,6 +346,7 @@ namespace Orionik.EnglishTextsTrainer.ViewModels
                     return list;
             }
         }
+
         private List<Word> CheckKnowFilter(List<Word> list)
         {
             switch (KnowFilter)
@@ -320,15 +359,18 @@ namespace Orionik.EnglishTextsTrainer.ViewModels
                     return list;
             }
         }
+
         #endregion
 
         #region PropertyChanged
+
         public event PropertyChangedEventHandler PropertyChanged;
+
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-        #endregion
 
+        #endregion
     }
 }
