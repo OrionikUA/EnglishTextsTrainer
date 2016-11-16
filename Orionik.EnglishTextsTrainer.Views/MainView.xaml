@@ -6,6 +6,7 @@
         xmlns:resx="clr-namespace:Orionik.EnglishTextsTrainer.Views.Properties"
         xmlns:vm="clr-namespace:Orionik.EnglishTextsTrainer.ViewModels;assembly=Orionik.EnglishTextsTrainer.ViewModels"
         xmlns:local="clr-namespace:Orionik.EnglishTextsTrainer.Views"
+        xmlns:conv="clr-namespace:Orionik.EnglishTextsTrainer.Views.Converters"
         mc:Ignorable="d"
         MinHeight="500"
         MinWidth="500"
@@ -13,6 +14,10 @@
     <Window.DataContext>
         <vm:MainViewModel></vm:MainViewModel>
     </Window.DataContext>
+    <Window.Resources>
+        <ObjectDataProvider x:Key="FindCriteria" ObjectType="{x:Type vm:Filter}" />
+        <conv:RadioButtonCheckedConverter x:Key="RadioButtonCheckedConverter" />
+    </Window.Resources>
     <TabControl>
         <TabItem Header="{x:Static resx:Resources.Project}">
             <DockPanel LastChildFill="True">
@@ -71,19 +76,25 @@
                                 <ColumnDefinition></ColumnDefinition>
                                 <ColumnDefinition></ColumnDefinition>
                             </Grid.ColumnDefinitions>
-                            <CheckBox Grid.Column="0" Content="{x:Static resx:Resources.Project}"></CheckBox>
+                            <CheckBox Grid.Column="0" Content="{x:Static resx:Resources.Project}" IsChecked="{Binding ProjectChecked}"></CheckBox>
                             <StackPanel Grid.Column="1" Orientation="Vertical">
-                                <RadioButton GroupName="IgnoreGroup" Content="{x:Static resx:Resources.IsIgnore}"></RadioButton>
-                                <RadioButton GroupName="IgnoreGroup" Content="{x:Static resx:Resources.IsNotIgnore}"></RadioButton>
-                                <RadioButton GroupName="IgnoreGroup" Content="{x:Static resx:Resources.IsAll}"></RadioButton>
+                                <RadioButton GroupName="IgnoreGroup" Content="{x:Static resx:Resources.IsIgnore}" IsChecked="{Binding IgnoreFilter, Converter={StaticResource RadioButtonCheckedConverter}, 
+                            ConverterParameter={x:Static vm:Filter.True}}"></RadioButton>
+                                <RadioButton GroupName="IgnoreGroup" Content="{x:Static resx:Resources.IsNotIgnore}" IsChecked="{Binding IgnoreFilter, Converter={StaticResource RadioButtonCheckedConverter}, 
+                            ConverterParameter={x:Static vm:Filter.False}}"></RadioButton>
+                                <RadioButton GroupName="IgnoreGroup" Content="{x:Static resx:Resources.IsAll}" IsChecked="{Binding IgnoreFilter, Converter={StaticResource RadioButtonCheckedConverter}, 
+                            ConverterParameter={x:Static vm:Filter.All}}"></RadioButton>
                             </StackPanel>
                             <StackPanel Grid.Column="2" Orientation="Vertical">
-                                <RadioButton GroupName="KnowGroup" Content="{x:Static resx:Resources.IsKnow}"></RadioButton>
-                                <RadioButton GroupName="KnowGroup" Content="{x:Static resx:Resources.IsNotKnow}"></RadioButton>
-                                <RadioButton GroupName="KnowGroup" Content="{x:Static resx:Resources.IsAll}"></RadioButton>
+                                <RadioButton GroupName="KnowGroup" Content="{x:Static resx:Resources.IsKnow}" IsChecked="{Binding KnowFilter, Converter={StaticResource RadioButtonCheckedConverter}, 
+                            ConverterParameter={x:Static vm:Filter.True}}"></RadioButton>
+                                <RadioButton GroupName="KnowGroup" Content="{x:Static resx:Resources.IsNotKnow}" IsChecked="{Binding KnowFilter, Converter={StaticResource RadioButtonCheckedConverter}, 
+                            ConverterParameter={x:Static vm:Filter.False}}"></RadioButton>
+                                <RadioButton GroupName="KnowGroup" Content="{x:Static resx:Resources.IsAll}" IsChecked="{Binding KnowFilter, Converter={StaticResource RadioButtonCheckedConverter}, 
+                            ConverterParameter={x:Static vm:Filter.All}}"></RadioButton>
                             </StackPanel>
                         </Grid>
-                        <DataGrid ItemsSource="{Binding DataBaseGrid}" IsReadOnly="True"></DataGrid>
+                        <DataGrid ItemsSource="{Binding DataFilterGrid}" IsReadOnly="True"></DataGrid>
                     </DockPanel>
                 </Grid>
             </DockPanel>
