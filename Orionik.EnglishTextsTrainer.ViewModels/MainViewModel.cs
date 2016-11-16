@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Configuration;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 using Orionik.EnglishTextsTrainer.Helpers;
 using Orionik.EnglishTextsTrainer.Logic;
@@ -20,8 +15,8 @@ namespace Orionik.EnglishTextsTrainer.ViewModels
 {
     public class MainViewModel : INotifyPropertyChanged
     {
-        private readonly UnitOfWork _unitOfWork;
 
+        #region Constructors
         public MainViewModel()
         {
             IsOpenFileButtonEnabled = true;
@@ -31,13 +26,85 @@ namespace Orionik.EnglishTextsTrainer.ViewModels
             _unitOfWork = new UnitOfWork(ConnectionStringHelper.Instance.Connection);
             DataBaseGrid = _unitOfWork.WordRepository.GetList();
             ProjectWordList = new List<Word>();
+            IgnoreFilter = Filter.All;
+            KnowFilter = Filter.All;
         }
+        #endregion
+
+        #region CommandProperties
         public ICommand OpenFileCommand
         {
             get { return new RelayCommand(param => { OpenFile(); }, o => IsOpenFileButtonEnabled); }
         }
+        public ICommand SaveProjectWordCommand
+        {
+            get
+            {
+                return new RelayCommand(p => SaveProjectWord(), o => CanSaveProjectWord());
+            }
+        }
+        public ICommand DeleteIgnoredCommand
+        {
+            get
+            {
+                return new RelayCommand(p =>
+                {
+                    var ignored = (from word in DataBaseGrid where word.Ignore select word).ToList();
+                    var deleteList = new List<string>();
 
+                    foreach (var word in ProjectTextWords)
+                    {
+                        if (ignored.FirstOrDefault(x => x.Name == word) != null)
+                        {
+                            deleteList.Add(word);
+                        }
+                    }
+                    foreach (var word in deleteList)
+                    {
+                        DeleteProjectSelectedWord(word);
+                    }
+                });
+            }
+        }
+        public ICommand DeleteKnownCommand
+        {
+            get
+            {
+                return new RelayCommand(p =>
+                {
+                    var ignored = (from word in DataBaseGrid where word.Know select word).ToList();
+                    var deleteList = new List<string>();
+                    foreach (var word in ProjectTextWords)
+                    {
+                        if (ignored.FirstOrDefault(x => x.Name == word) != null)
+                        {
+                            deleteList.Add(word);
+                        }
+                    }
+                    foreach (var word in deleteList)
+                    {
+                        DeleteProjectSelectedWord(word);
+                    }
+                });
+            }
+        }
+        #endregion
+
+        #region Fileds
+        private readonly UnitOfWork _unitOfWork;
         private bool _isOpenFileButtonEnabled;
+        private List<Word> _projectWordList;
+        private string _filePath;
+        private bool _isProjectMainPanelEnabled;
+        private ObservableCollection<string> _projectTextWords;
+        private Word _newProjectWordToSave;
+        private List<Word> _dataBaseGrid;
+        private bool _projectChecked;
+        private Filter _ignoreFilter;
+        private Filter _knowFilter;
+        #endregion
+
+        #region Properties
         public bool IsOpenFileButtonEnabled
         {
             get { return _isOpenFileButtonEnabled; }
@@ -46,10 +113,7 @@ namespace Orionik.EnglishTextsTrainer.ViewModels
                 _isOpenFileButtonEnabled = value;
                 OnPropertyChanged();
             }
-
         }
-
-        private List<Word> _projectWordList;
         public List<Word> ProjectWordList
         {
             get { return _projectWordList; }
@@ -59,27 +123,6 @@ namespace Orionik.EnglishTextsTrainer.ViewModels
                 OnPropertyChanged();
             }
         }
-
-        private void OpenFile()
-        {
-            var dialog = new OpenFileDialogService(".txt", "Text documents (.txt)|*.txt");
-            FilePath = dialog.OpenFile();
-            if (!string.IsNullOrEmpty(FilePath))
-            {
-                IsOpenFileButtonEnabled = false;
-                IsProjectMainPanelEnabled = true;
-            }
-
-            var text = TextFile.ReadFile(FilePath);
-            var words = TextWords.GetUniqueWordList(TextWords.FindWords(text));
-            foreach (var word in words)
-            {
-                ProjectTextWords.Add(word);
-            }
-            OnPropertyChanged(nameof(ProjectTextWords));
-        }
-
-        private string _filePath;
         public string FilePath
         {
             get { return _filePath; }
@@ -89,8 +132,6 @@ namespace Orionik.EnglishTextsTrainer.ViewModels
                 OnPropertyChanged();
             }
         }
-
-        private bool _isProjectMainPanelEnabled;
         public bool IsProjectMainPanelEnabled
         {
             get { return _isProjectMainPanelEnabled; }
@@ -100,8 +141,6 @@ namespace Orionik.EnglishTextsTrainer.ViewModels
                 OnPropertyChanged();
             }
         }
-
-        private ObservableCollection<string> _projectTextWords;
         public ObservableCollection<string> ProjectTextWords
         {
             get { return _projectTextWords; }
@@ -111,7 +150,6 @@ namespace Orionik.EnglishTextsTrainer.ViewModels
                 OnPropertyChanged();
             }
         }
-
         public string SelectedTextWord
         {
             get { return _newProjectWordToSave.Name; }
@@ -132,8 +170,6 @@ namespace Orionik.EnglishTextsTrainer.ViewModels
                 OnPropertyChanged();
             }
         }
-
-        private Word _newProjectWordToSave;
         public Word NewProjectWordToSave
         {
             get { return _newProjectWordToSave; }
@@ -146,7 +182,6 @@ namespace Orionik.EnglishTextsTrainer.ViewModels
                 OnPropertyChanged("NewProjectWordToSaveKnow");
             }
         }
-
         public string NewProjectWordToSaveMeanings
         {
             get { return _newProjectWordToSave.Meanings; }
@@ -156,7 +191,6 @@ namespace Orionik.EnglishTextsTrainer.ViewModels
                 OnPropertyChanged();
             }
         }
-
         public bool NewProjectWordToSaveIgnore
         {
             get { return _newProjectWordToSave.Ignore; }
@@ -166,7 +200,6 @@ namespace Orionik.EnglishTextsTrainer.ViewModels
                 OnPropertyChanged();
             }
         }
-
         public bool NewProjectWordToSaveKnow
         {
             get { return _newProjectWordToSave.Know; }
@@ -176,8 +209,6 @@ namespace Orionik.EnglishTextsTrainer.ViewModels
                 OnPropertyChanged();
             }
         }
-
-        private List<Word> _dataBaseGrid;
         public List<Word> DataBaseGrid
         {
             get { return _dataBaseGrid; }
@@ -187,15 +218,47 @@ namespace Orionik.EnglishTextsTrainer.ViewModels
                 OnPropertyChanged();
             }
         }
-
-        public ICommand SaveProjectWordCommand
+        public List<Word> DataFilterGrid => CheckKnowFilter(ProjectChecked ? CheckIgnoreFilter(_projectWordList) : CheckIgnoreFilter(_dataBaseGrid));
+        public bool ProjectChecked
         {
-            get
+            get { return _projectChecked; }
+            set
             {
-                return new RelayCommand(p => SaveProjectWord(), o => CanSaveProjectWord());
+                _projectChecked = value;
+                OnPropertyChanged();
+                OnPropertyChanged("DataFilterGrid");
             }
         }
+        public Filter IgnoreFilter
+        {
+            get { return _ignoreFilter; }
+            set { _ignoreFilter = value; OnPropertyChanged(); OnPropertyChanged("DataFilterGrid"); }
+        }
+        public Filter KnowFilter
+        {
+            get { return _knowFilter; }
+            set { _knowFilter = value; OnPropertyChanged(); OnPropertyChanged("DataFilterGrid"); }
+        }
+        #endregion
 
+        #region PrivateMethods
+        private void OpenFile()
+        {
+            var dialog = new OpenFileDialogService(".txt", "Text documents (.txt)|*.txt");
+            FilePath = dialog.OpenFile();
+            if (!string.IsNullOrEmpty(FilePath))
+            {
+                IsOpenFileButtonEnabled = false;
+                IsProjectMainPanelEnabled = true;
+            }
+            var text = TextFile.ReadFile(FilePath);
+            var words = TextWords.GetUniqueWordList(TextWords.FindWords(text));
+            foreach (var word in words)
+            {
+                ProjectTextWords.Add(word);
+            }
+            OnPropertyChanged("ProjectTextWords");
+        }
         private void SaveProjectWord()
         {
             Word dataWord = DataBaseGrid.FirstOrDefault(x => x.Name == NewProjectWordToSave.Name);
@@ -212,125 +275,60 @@ namespace Orionik.EnglishTextsTrainer.ViewModels
             if (!NewProjectWordToSave.Ignore && !NewProjectWordToSave.Know)
             {
                 ProjectWordList.Add(DataBaseGrid.First(x => x.Name == NewProjectWordToSave.Name));
+                OnPropertyChanged("ProjectWordList");
             }
-
             var selected = SelectedTextWord;
             CleareSaveProjectWord();
             DeleteProjectSelectedWord(selected);
-            
         }
-
         private void DeleteProjectSelectedWord(string selected)
         {
             ProjectTextWords.Remove(selected);
             OnPropertyChanged("ProjectTextWords");
         }
-
         private void CleareSaveProjectWord()
         {
             SelectedTextWord = string.Empty;
             NewProjectWordToSave = new Word();
         }
-
         private bool CanSaveProjectWord()
         {
             return !string.IsNullOrEmpty(NewProjectWordToSave.Name) &&
                    !string.IsNullOrEmpty(NewProjectWordToSave.Meanings);
         }
-
-        public object DeleteIgnoredCommand
+        private List<Word> CheckIgnoreFilter(List<Word> list)
         {
-            get
+            switch (IgnoreFilter)
             {
-                return new RelayCommand(p =>
-                {
-                    var ignored = (from word in DataBaseGrid where word.Ignore select word).ToList();
-                    var deleteList = new List<string>();
-                    
-                    foreach (var word in ProjectTextWords)
-                    {
-                        if (ignored.FirstOrDefault(x => x.Name == word) != null)
-                        {
-                            deleteList.Add(word);
-                        }
-                    }
-                    foreach (var word in deleteList)
-                    {
-                        DeleteProjectSelectedWord(word);
-                    }
-
-                });
+                case Filter.True:
+                    return list.FindAll(x => x.Ignore);
+                case Filter.False:
+                    return list.FindAll(x => !x.Ignore);
+                default:
+                    return list;
             }
         }
-
-        public object DeleteKnownCommand
+        private List<Word> CheckKnowFilter(List<Word> list)
         {
-            get
+            switch (KnowFilter)
             {
-                return new RelayCommand(p =>
-                {
-                    var ignored = (from word in DataBaseGrid where word.Know select word).ToList();
-                    var deleteList = new List<string>();
-
-                    foreach (var word in ProjectTextWords)
-                    {
-                        if (ignored.FirstOrDefault(x => x.Name == word) != null)
-                        {
-                            deleteList.Add(word);
-                        }
-                    }
-                    foreach (var word in deleteList)
-                    {
-                        DeleteProjectSelectedWord(word);
-                    }
-
-                });
+                case Filter.True:
+                    return list.FindAll(x => x.Know);
+                case Filter.False:
+                    return list.FindAll(x => !x.Know);
+                default:
+                    return list;
             }
         }
+        #endregion
 
-        //public object SavaAllNotKnownThatIsInBaseCommand
-        //{
-        //    get { throw new NotImplementedException(); }
-        //}
-
-
-
-        //public object SelectedTextWord
-        //{
-        //    get { throw new NotImplementedException(); }
-        //}
-
-
-
-        //public object NewProjectWordToSave
-        //{
-        //    get { throw new NotImplementedException(); }
-        //}
-
-
-
-        //public object IsDataAddPanelEnabled
-        //{
-        //    get { throw new NotImplementedException(); }
-        //}
-
-        //public object NewDataWordToSave
-        //{
-        //    get { throw new NotImplementedException(); }
-        //}
-
-        //public object SaveDataWordCommand
-        //{
-        //    get { throw new NotImplementedException(); }
-        //}
-
-
-
+        #region PropertyChanged
         public event PropertyChangedEventHandler PropertyChanged;
-
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+        #endregion
+
     }
 }
