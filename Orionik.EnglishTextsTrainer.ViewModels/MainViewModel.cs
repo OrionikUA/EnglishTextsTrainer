@@ -20,6 +20,7 @@ namespace Orionik.EnglishTextsTrainer.ViewModels
 
         public MainViewModel()
         {
+            SelectedDatabaseWord = new Word();
             IsOpenFileButtonEnabled = true;
             IsProjectMainPanelEnabled = false;
             ProjectTextWords = new ObservableCollection<string>();
@@ -97,6 +98,31 @@ namespace Orionik.EnglishTextsTrainer.ViewModels
             }
         }
 
+        public ICommand SavaAllNotKnownThatIsInBaseCommand
+        {
+            get
+            {
+                return new RelayCommand(p =>
+                {
+                    var dontKnow = (from word in DataBaseGrid where !word.Know select word).ToList();
+                    var deleteList = new List<string>();
+                    foreach (var word in ProjectTextWords)
+                    {
+                        var dontKnowWord = dontKnow.FirstOrDefault(x => x.Name == word);
+                        if (dontKnowWord != null)
+                        {
+                            ProjectWordList.Add(dontKnowWord);
+                            deleteList.Add(word);
+                        }
+                    }
+                    foreach (var word in deleteList)
+                    {
+                        DeleteProjectSelectedWord(word);
+                    }
+                });
+            }
+        }
+
         public ICommand ExportDataCommand
         {
             get { return new RelayCommand(p =>
@@ -104,6 +130,12 @@ namespace Orionik.EnglishTextsTrainer.ViewModels
                 SaveToFile(DataFilterGrid.ToList().ConvertAll(x => x.ToString()));
             });}
         }
+
+        public ICommand SaveDatabaseUpdateWordCommand
+        {
+            get { return  new RelayCommand(p => SaveDatabaseUpdateWord(), o => CanSaveDatabaseUpdateWord());}
+        }
+
         #endregion
 
         #region Fileds
@@ -119,6 +151,7 @@ namespace Orionik.EnglishTextsTrainer.ViewModels
         private bool _projectChecked;
         private Filter _ignoreFilter;
         private Filter _knowFilter;
+        private Word _selectedDatabaseWord;
 
         #endregion
 
@@ -261,7 +294,6 @@ namespace Orionik.EnglishTextsTrainer.ViewModels
                 return obsList;
             }
         }
-        
 
         public bool ProjectChecked
         {
@@ -297,7 +329,64 @@ namespace Orionik.EnglishTextsTrainer.ViewModels
         }
 
         public int ProjcetListCount => ProjectTextWords.Count;
-        
+
+        public Word SelectedDatabaseWord
+        {
+            get { return _selectedDatabaseWord; }
+            set
+            {
+                _selectedDatabaseWord = value;
+                OnPropertyChanged();
+                OnPropertyChanged("SelectedDatabaseWordName");
+                OnPropertyChanged("SelectedDatabaseWordMeanings");
+                OnPropertyChanged("SelectedDatabaseWordIgnore");
+                OnPropertyChanged("SelectedDatabaseWordKnow");
+            }
+        }
+
+        public string SelectedDatabaseWordName
+        {
+            get
+            {
+                return SelectedDatabaseWord == null ? string.Empty : SelectedDatabaseWord.Name;
+            }
+            set
+            {
+                SelectedDatabaseWord.Name = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public string SelectedDatabaseWordMeanings
+        {
+            get { return SelectedDatabaseWord == null ? string.Empty : SelectedDatabaseWord.Meanings; }
+            set
+            {
+                SelectedDatabaseWord.Meanings = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public bool SelectedDatabaseWordIgnore
+        {
+            get { return SelectedDatabaseWord == null ? false : SelectedDatabaseWord.Ignore; }
+            set
+            {
+                SelectedDatabaseWord.Ignore = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public bool SelectedDatabaseWordKnow
+        {
+            get { return SelectedDatabaseWord == null ? false : SelectedDatabaseWord.Know; }
+            set
+            {
+                SelectedDatabaseWord.Know = value;
+                OnPropertyChanged();
+            }
+        }
+
         #endregion
 
         #region PrivateMethods
@@ -393,6 +482,25 @@ namespace Orionik.EnglishTextsTrainer.ViewModels
                 default:
                     return list;
             }
+        }
+
+        private bool CanSaveDatabaseUpdateWord()
+        {
+            return !string.IsNullOrEmpty(SelectedDatabaseWordMeanings) && !string.IsNullOrEmpty(SelectedDatabaseWordName);
+        }
+
+        private void SaveDatabaseUpdateWord()
+        {
+            _unitOfWork.WordRepository.Update(SelectedDatabaseWord);
+            DataBaseGrid[DataBaseGrid.IndexOf(DataBaseGrid.FirstOrDefault(x => x.Id == SelectedDatabaseWord.Id))] = SelectedDatabaseWord;
+            OnPropertyChanged("DataFilterGrid");
+
+            var word = ProjectWordList.FirstOrDefault(x => x.Id == SelectedDatabaseWord.Id);
+            if (word != null)
+            {
+                ProjectWordList[ProjectWordList.IndexOf(word)] = SelectedDatabaseWord;
+            }
+            OnPropertyChanged("ProjectWordList");
         }
 
         #endregion
