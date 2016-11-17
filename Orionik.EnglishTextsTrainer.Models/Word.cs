@@ -1,5 +1,8 @@
-﻿namespace Orionik.EnglishTextsTrainer.Models
+﻿using System;
+
+namespace Orionik.EnglishTextsTrainer.Models
 {
+    [Serializable]
     public class Word
     {
         public int Id { get; set; }

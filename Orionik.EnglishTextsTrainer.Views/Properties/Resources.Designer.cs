@@ -70,6 +70,15 @@ namespace Orionik.EnglishTextsTrainer.Views.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Ввійти.
+        /// </summary>
+        public static string Connect {
+            get {
+                return ResourceManager.GetString("Connect", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Видалити ігнороване.
         /// </summary>
         public static string DeleteIgnore {
@@ -178,6 +187,33 @@ namespace Orionik.EnglishTextsTrainer.Views.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Відкрити файл.
+        /// </summary>
+        public static string OpenFile {
+            get {
+                return ResourceManager.GetString("OpenFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Відкрити проект.
+        /// </summary>
+        public static string OpenProject {
+            get {
+                return ResourceManager.GetString("OpenProject", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Пароль.
+        /// </summary>
+        public static string Password {
+            get {
+                return ResourceManager.GetString("Password", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Експорт англійських слів.
         /// </summary>
         public static string ProgramName {
@@ -214,11 +250,29 @@ namespace Orionik.EnglishTextsTrainer.Views.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Зберегти проект.
+        /// </summary>
+        public static string SaveProject {
+            get {
+                return ResourceManager.GetString("SaveProject", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Пошук.
         /// </summary>
         public static string Search {
             get {
                 return ResourceManager.GetString("Search", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Сервер.
+        /// </summary>
+        public static string Server {
+            get {
+                return ResourceManager.GetString("Server", resourceCulture);
             }
         }
         

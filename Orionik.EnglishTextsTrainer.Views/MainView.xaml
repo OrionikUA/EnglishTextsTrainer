@@ -20,18 +20,19 @@
     <TabControl>
         <TabItem Header="{x:Static resx:Resources.Project}">
             <DockPanel LastChildFill="True">
-                <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" Margin="5">
-                    
-                    <Button Content="{x:Static resx:Resources.Open}" Padding="3" Command="{Binding OpenFileCommand}" IsEnabled="{Binding IsOpenFileButtonEnabled}"></Button>
+                <WrapPanel Orientation="Horizontal" DockPanel.Dock="Top" Margin="5">
+                    <Button Content="{x:Static resx:Resources.SaveProject}" Padding="3" Margin="0,0,5,0" Command="{Binding SaveProjectCommand}"></Button>
+                    <Button Content="{x:Static resx:Resources.OpenProject}" Padding="3" Margin="0,0,5,0" Command="{Binding OpenProjectCommand}"></Button>
+                    <Button Content="{x:Static resx:Resources.OpenFile}" Padding="3" Command="{Binding OpenFileCommand}"></Button>
                     <Label Margin="5,0,0,0" Content="{Binding ProjcetListCount}"></Label>
                     <Label Margin="5,0,0,0" Content="{Binding FilePath}"></Label>
-                </StackPanel>
+                </WrapPanel>
                 <StackPanel Orientation="Vertical" DockPanel.Dock="Bottom" Margin="5">
                     <Button Content="{x:Static resx:Resources.DeleteIgnore}" Padding="3" Margin="0,2" Command="{Binding DeleteIgnoredCommand}"></Button>
                     <Button Content="{x:Static resx:Resources.DeleteKnow}" Padding="3" Margin="0,2" Command="{Binding DeleteKnownCommand}"></Button>
                     <Button Content="{x:Static resx:Resources.SaveAllNotKnow}" Padding="3" Margin="0,2" Command="{Binding SavaAllNotKnownThatIsInBaseCommand}"></Button>
                 </StackPanel>
-                <Grid Margin="5" IsEnabled="{Binding IsProjectMainPanelEnabled}">
+                <Grid Margin="5">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition></ColumnDefinition>
                         <ColumnDefinition></ColumnDefinition>

@@ -9,10 +9,18 @@ namespace Orionik.EnglishTextsTrainer.Helpers
 {
     public class ConnectionStringHelper
     {
-        public readonly String Connection;
+        public readonly List<string> Connection;
         private static ConnectionStringHelper _instance;
 
-        private ConnectionStringHelper() { Connection = ConfigurationManager.ConnectionStrings["EnglishTextsTrainerConnectionString"].ConnectionString; }
+        private ConnectionStringHelper()
+        {
+            Connection = new List<string>();
+
+            for (int i = 1; i < ConfigurationManager.ConnectionStrings.Count; i++)
+            {
+                Connection.Add(ConfigurationManager.ConnectionStrings[i].ConnectionString);
+            }
+        }
 
         public static ConnectionStringHelper Instance => _instance ?? (_instance = new ConnectionStringHelper());
 

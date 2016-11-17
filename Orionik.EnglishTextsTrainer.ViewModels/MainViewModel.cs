@@ -25,7 +25,7 @@ namespace Orionik.EnglishTextsTrainer.ViewModels
             IsProjectMainPanelEnabled = false;
             ProjectTextWords = new ObservableCollection<string>();
             NewProjectWordToSave = new Word();
-            _unitOfWork = new UnitOfWork(ConnectionStringHelper.Instance.Connection);
+            _unitOfWork = new UnitOfWork(ConnectionStringHelper.Instance.Connection[0]);
             DataBaseGrid = _unitOfWork.WordRepository.GetList();
             ProjectWordList = new List<Word>();
             IgnoreFilter = Filter.All;
@@ -134,6 +134,49 @@ namespace Orionik.EnglishTextsTrainer.ViewModels
         public ICommand SaveDatabaseUpdateWordCommand
         {
             get { return  new RelayCommand(p => SaveDatabaseUpdateWord(), o => CanSaveDatabaseUpdateWord());}
+        }
+
+        public ICommand SaveProjectCommand
+        {
+            get
+            {
+                return new RelayCommand(p =>
+                {
+                    var dialog = new SaveFileDialogService(".dat", "Dat Files (.dat)|*.dat");
+                    var filePath = dialog.CreateAndOpenFile();
+                    if (!string.IsNullOrEmpty(filePath))
+                    {
+                        var serializeObject = new SerializeObject
+                        {
+                            StringList = ProjectTextWords.ToList(),
+                            WordList = ProjectWordList
+                        };
+                        serializeObject.Serialize(filePath);
+                    }
+                });
+            }
+        }
+
+        public ICommand OpenProjectCommand
+        {
+            get
+            {
+                return new RelayCommand(p =>
+                {
+                    var dialog = new OpenFileDialogService(".dat", "Dat Files (.dat)|*.dat");
+                    var filePath = dialog.OpenFile();
+                    if (!string.IsNullOrEmpty(filePath))
+                    {
+                        var serializeObject = SerializeProject.Deserialize(filePath);
+                        foreach (var word in serializeObject.StringList)
+                        {
+                            ProjectTextWords.Add(word);
+                        }
+                        ProjectWordList = serializeObject.WordList;
+                        OnPropertyChanged("DataFilterGrid");
+                    }
+                });
+            }
         }
 
         #endregion

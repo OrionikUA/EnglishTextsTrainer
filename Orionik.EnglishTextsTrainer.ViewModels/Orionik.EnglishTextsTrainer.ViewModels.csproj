@@ -37,6 +37,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Command\RelayCommand.cs" />
+    <Compile Include="ConnectViewModel.cs" />
     <Compile Include="Filter.cs" />
     <Compile Include="MainViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -45,6 +46,10 @@
     <ProjectReference Include="..\Orionik.EnglishTextsTrainer.Helpers\Orionik.EnglishTextsTrainer.Helpers.csproj">
       <Project>{33955fea-1583-4c30-90c7-088ecd7fd39d}</Project>
       <Name>Orionik.EnglishTextsTrainer.Helpers</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Orionik.EnglishTextsTrainer.Logger\Orionik.EnglishTextsTrainer.Logger.csproj">
+      <Project>{23b60133-d6da-4b7f-bc06-2fb46e344d17}</Project>
+      <Name>Orionik.EnglishTextsTrainer.Logger</Name>
     </ProjectReference>
     <ProjectReference Include="..\Orionik.EnglishTextsTrainer.Logic\Orionik.EnglishTextsTrainer.Logic.csproj">
       <Project>{7f986b2f-3f82-4611-afd5-e5408a1c589c}</Project>
@@ -57,6 +62,10 @@
     <ProjectReference Include="..\Orionik.EnglishTextsTrainer.Repositories\Orionik.EnglishTextsTrainer.Repositories.csproj">
       <Project>{73cd1ad4-5171-4dfe-bce7-c9f5ad250d23}</Project>
       <Name>Orionik.EnglishTextsTrainer.Repositories</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Orionik.EnglishTextsTrainer.Resources\Orionik.EnglishTextsTrainer.Resources.csproj">
+      <Project>{c32b30f6-1857-48d5-8ba9-bdeee9544560}</Project>
+      <Name>Orionik.EnglishTextsTrainer.Resources</Name>
     </ProjectReference>
     <ProjectReference Include="..\Orionik.EnglishTextsTrainer.UIServices\Orionik.EnglishTextsTrainer.UIServices.csproj">
       <Project>{9e451dac-e29b-4fb0-b6f8-86e7dddaca6a}</Project>

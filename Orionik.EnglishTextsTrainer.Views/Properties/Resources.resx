@@ -120,6 +120,9 @@
   <data name="Base" xml:space="preserve">
     <value>База</value>
   </data>
+  <data name="Connect" xml:space="preserve">
+    <value>Ввійти</value>
+  </data>
   <data name="DeleteIgnore" xml:space="preserve">
     <value>Видалити ігнороване</value>
   </data>
@@ -156,6 +159,15 @@
   <data name="Open" xml:space="preserve">
     <value>Відкрити</value>
   </data>
+  <data name="OpenFile" xml:space="preserve">
+    <value>Відкрити файл</value>
+  </data>
+  <data name="OpenProject" xml:space="preserve">
+    <value>Відкрити проект</value>
+  </data>
+  <data name="Password" xml:space="preserve">
+    <value>Пароль</value>
+  </data>
   <data name="ProgramName" xml:space="preserve">
     <value>Експорт англійських слів</value>
   </data>
@@ -168,8 +180,14 @@
   <data name="SaveAllNotKnow" xml:space="preserve">
     <value>Зберегти всі невідомі, що є в базі</value>
   </data>
+  <data name="SaveProject" xml:space="preserve">
+    <value>Зберегти проект</value>
+  </data>
   <data name="Search" xml:space="preserve">
     <value>Пошук</value>
+  </data>
+  <data name="Server" xml:space="preserve">
+    <value>Сервер</value>
   </data>
   <data name="Translate" xml:space="preserve">
     <value>пропонований переклад</value>

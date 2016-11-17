@@ -35,6 +35,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SerializeObject.cs" />
+    <Compile Include="SerializeProject.cs" />
     <Compile Include="TextFile.cs" />
     <Compile Include="TextWords.cs" />
   </ItemGroup>
@@ -42,6 +44,10 @@
     <ProjectReference Include="..\Orionik.EnglishTextsTrainer.Logger\Orionik.EnglishTextsTrainer.Logger.csproj">
       <Project>{23b60133-d6da-4b7f-bc06-2fb46e344d17}</Project>
       <Name>Orionik.EnglishTextsTrainer.Logger</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Orionik.EnglishTextsTrainer.Models\Orionik.EnglishTextsTrainer.Models.csproj">
+      <Project>{9d028833-9135-435c-8c51-ebaba2ebebcf}</Project>
+      <Name>Orionik.EnglishTextsTrainer.Models</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

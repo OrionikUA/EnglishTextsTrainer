@@ -15,6 +15,7 @@ namespace Orionik.EnglishTextsTrainer
         {
             App app = new App();
             MainView mainView = new MainView();
+            //ConnectView mainView = new ConnectView();
             app.Run(mainView);
         }
     }
