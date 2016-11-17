@@ -15,7 +15,6 @@
         <vm:MainViewModel></vm:MainViewModel>
     </Window.DataContext>
     <Window.Resources>
-        <ObjectDataProvider x:Key="FindCriteria" ObjectType="{x:Type vm:Filter}" />
         <conv:RadioButtonCheckedConverter x:Key="RadioButtonCheckedConverter" />
     </Window.Resources>
     <TabControl>
@@ -62,14 +61,14 @@
                     </Grid.ColumnDefinitions>
                     <StackPanel Grid.Column="1" Margin="3" IsEnabled="{Binding IsDataAddPanelEnabled}">
                         <Label Content="{x:Static resx:Resources.Word}" Padding="5,3,5,1"></Label>
-                        <TextBox Margin="5,0,5,5" IsReadOnly="True" Text="{Binding NewDataWordToSave.Name}"></TextBox>
+                        <TextBox Margin="5,0,5,5" IsReadOnly="True" Text="{Binding SelectedDatabaseWordName}"></TextBox>
                         <Label Content="{x:Static resx:Resources.Meaning}" Padding="5,3,5,1"></Label>
-                        <TextBox Margin="5,0,5,5" TextWrapping="Wrap" MinLines="4" Text="{Binding NewDataWordToSave.Meanings}"></TextBox>
+                        <TextBox Margin="5,0,5,5" TextWrapping="Wrap" MinLines="4" Text="{Binding SelectedDatabaseWordMeanings}"></TextBox>
                         <Label Content="{x:Static resx:Resources.Translate}" Padding="5,3,5,1"></Label>
                         <TextBox Margin="5,0,5,5" TextWrapping="Wrap" MinLines="3" IsReadOnly="True"></TextBox>
-                        <CheckBox Content="{x:Static resx:Resources.Ignore}" Margin="5" IsChecked="{Binding NewDataWordToSave.Ignore}"></CheckBox>
-                        <CheckBox Content="{x:Static resx:Resources.Know}" Margin="5" IsChecked="{Binding NewDataWordToSave.Know}"></CheckBox>
-                        <Button Margin="5" Content="{x:Static resx:Resources.Save}" Padding="3" Command="{Binding SaveDataWordCommand}"></Button>
+                        <CheckBox Content="{x:Static resx:Resources.Ignore}" Margin="5" IsChecked="{Binding SelectedDatabaseWordIgnore}"></CheckBox>
+                        <CheckBox Content="{x:Static resx:Resources.Know}" Margin="5" IsChecked="{Binding SelectedDatabaseWordKnow}"></CheckBox>
+                        <Button Margin="5" Content="{x:Static resx:Resources.Save}" Padding="3" Command="{Binding SaveDatabaseUpdateWordCommand}"></Button>
                     </StackPanel>
                     <DockPanel Grid.Column="0" LastChildFill="True" Margin="5">
                         <Grid DockPanel.Dock="Top" Margin="0,0,0,5">
@@ -96,7 +95,7 @@
                             ConverterParameter={x:Static vm:Filter.All}}"></RadioButton>
                             </StackPanel>
                         </Grid>
-                        <DataGrid ItemsSource="{Binding DataFilterGrid}" IsReadOnly="True"></DataGrid>
+                        <DataGrid ItemsSource="{Binding DataFilterGrid}" IsReadOnly="True" SelectionMode="Single" SelectedItem="{Binding SelectedDatabaseWord, Mode=OneWayToSource}"></DataGrid>
                     </DockPanel>
                 </Grid>
             </DockPanel>
